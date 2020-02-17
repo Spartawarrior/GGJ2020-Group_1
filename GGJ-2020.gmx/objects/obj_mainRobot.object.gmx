@@ -85,7 +85,7 @@ speed_hacks = 0;
 // health variables
 max_health = 99;
 my_health = 99;
-decay_rate = 0.0004;
+decay_rate = 0.01;
 heal_rate = 2;
 </string>
           </argument>
@@ -276,9 +276,9 @@ else {
 }
 
 //TODO: Better game over
-//if (my_health &lt; 0) {
-//    room_restart();
-//}
+if (my_health &lt; 0) {
+    room_restart();
+}
 </string>
           </argument>
         </arguments>

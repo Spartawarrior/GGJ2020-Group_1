@@ -198,6 +198,7 @@
     <object>objects\obj_bloodRegen</object>
     <object>objects\obj_bloodFall</object>
     <object>objects\screwthisOBJ</object>
+    <object>objects\obj_healthBar</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_THE</room>
