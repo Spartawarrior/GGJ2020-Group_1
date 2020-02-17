@@ -164,10 +164,12 @@
     <sprite>sprites\spr_main_robot_walkB</sprite>
     <sprite>sprites\spr_main_robot_sonarB</sprite>
     <sprite>sprites\spr_main_robot_sonarF</sprite>
+    <sprite>sprites\spr_main_robot_mask</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_floors</background>
     <background>background\bg_walls</background>
+    <background>background\bg_groundTile</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
