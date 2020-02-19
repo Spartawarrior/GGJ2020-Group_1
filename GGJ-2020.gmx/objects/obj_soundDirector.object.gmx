@@ -62,8 +62,8 @@ attempted_whisper = false;
             <kind>1</kind>
             <string>/// @desc Play correct sonar sound
 
-var min_whisper_dist = 150;
-var max_whisper_dist = 3000;
+var min_whisper_dist = 450;
+var max_whisper_dist = 2250;
 
 with(obj_mainRobot) {
     if (keyboard_check_pressed(vk_space) and sonar_active = true) {
@@ -112,7 +112,9 @@ if (side_audio != noone
     // Robot must be within a certain distance to hear whispers, and the whispers is louder depending on how close they are
     with (obj_mainRobot) {
         // Other is sound director
-        var treasure_dist = distance_to_object(obj_treasureHole);
+        var treasure_inst = instance_nearest(self.x, self.y, obj_treasureHole); 
+        var treasure_dist = distance_to_object(treasure_inst);
+        
         if (treasure_dist &lt;= max_whisper_dist) {
             // Different gain depending on how close they are
             // Whisper audio will be between 40 and 100
@@ -121,6 +123,13 @@ if (side_audio != noone
             var whisper_vol = 0.2 + real_percentage;
             other.whisper_audio = audio_play_sound(snd_whispers, 40, false); 
             audio_sound_gain(other.whisper_audio, whisper_vol, 0);
+        }
+        
+        if (treasure_dist &lt;= min_whisper_dist) {
+            // Send a message to the treasureHole to display itself if within very close proximity
+            with(treasure_inst) {
+                self.alarm[0] = 1;
+            }
         }
     }
 }
