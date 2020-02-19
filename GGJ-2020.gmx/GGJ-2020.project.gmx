@@ -168,6 +168,7 @@
     <sprite>sprites\spr_main_robot_arm_idle</sprite>
     <sprite>sprites\spr_main_robot_arm_move</sprite>
     <sprite>sprites\spr_main_robot_arm_carry</sprite>
+    <sprite>sprites\spr_mouseGUI</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_floors</background>
@@ -202,6 +203,7 @@
     <object>objects\obj_bloodFall</object>
     <object>objects\screwthisOBJ</object>
     <object>objects\obj_healthBar</object>
+    <object>objects\obj_interactableGUI</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_THE</room>
