@@ -136,14 +136,23 @@
     <sound>sound\snd_whispers</sound>
   </sounds>
   <sprites name="sprites">
-    <sprite>sprites\spr_main_robotF</sprite>
-    <sprite>sprites\spr_main_robotB</sprite>
-    <sprite>sprites\spr_main_robot_walkF</sprite>
-    <sprite>sprites\spr_main_robot_walkB</sprite>
-    <sprite>sprites\spr_main_robot_sonarF</sprite>
-    <sprite>sprites\spr_main_robot_sonarB</sprite>
-    <sprite>sprites\spr_main_robot_mask</sprite>
-    <sprite>sprites\spr_bunny</sprite>
+    <sprites name="spr_main_robot">
+      <sprite>sprites\spr_main_robot_mask</sprite>
+      <sprite>sprites\spr_main_robotF</sprite>
+      <sprite>sprites\spr_main_robotB</sprite>
+      <sprite>sprites\spr_main_robot_walkF</sprite>
+      <sprite>sprites\spr_main_robot_walkB</sprite>
+      <sprite>sprites\spr_main_robot_sonarF</sprite>
+      <sprite>sprites\spr_main_robot_sonarB</sprite>
+      <sprite>sprites\spr_main_robot_arm_idle</sprite>
+      <sprite>sprites\spr_main_robot_arm_move</sprite>
+      <sprite>sprites\spr_main_robot_arm_carry</sprite>
+    </sprites>
+    <sprites name="spr_bunny">
+      <sprite>sprites\spr_bunny</sprite>
+      <sprite>sprites\spr_bunny_hop</sprite>
+      <sprite>sprites\spr_bunny_idle</sprite>
+    </sprites>
     <sprite>sprites\spr_treasureHole</sprite>
     <sprite>sprites\spr_nonClickable</sprite>
     <sprite>sprites\spr_floors</sprite>
@@ -168,6 +177,7 @@
     <sprite>sprites\spr_main_robot_arm_idle</sprite>
     <sprite>sprites\spr_main_robot_arm_move</sprite>
     <sprite>sprites\spr_main_robot_arm_carry</sprite>
+    <sprite>sprites\spr_bunny_frack</sprite>
     <sprite>sprites\spr_mouseGUI</sprite>
   </sprites>
   <backgrounds name="background">
