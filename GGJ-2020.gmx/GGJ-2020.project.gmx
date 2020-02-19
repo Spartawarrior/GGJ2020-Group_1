@@ -174,9 +174,6 @@
     <sprite>sprites\spr_bloodFall</sprite>
     <sprite>sprites\spr_ending</sprite>
     <sprite>sprites\spr_endingGif</sprite>
-    <sprite>sprites\spr_main_robot_arm_idle</sprite>
-    <sprite>sprites\spr_main_robot_arm_move</sprite>
-    <sprite>sprites\spr_main_robot_arm_carry</sprite>
     <sprite>sprites\spr_bunny_frack</sprite>
     <sprite>sprites\spr_mouseGUI</sprite>
   </sprites>
