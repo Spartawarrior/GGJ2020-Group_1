@@ -176,6 +176,7 @@
     <sprite>sprites\spr_endingGif</sprite>
     <sprite>sprites\spr_bunny_frack</sprite>
     <sprite>sprites\spr_mouseGUI</sprite>
+    <sprite>sprites\spr_spacebarGUI</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_floors</background>
@@ -211,6 +212,8 @@
     <object>objects\screwthisOBJ</object>
     <object>objects\obj_healthBar</object>
     <object>objects\obj_interactableGUI</object>
+    <object>objects\obj_spaceBarGUI</object>
+    <object>objects\obj_stupidOBJ2</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_THE</room>

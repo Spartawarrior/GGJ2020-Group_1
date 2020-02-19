@@ -118,9 +118,10 @@ speed_hacks = main_robot.speed_hacks;
             <string>///Bunny State Machine
 
 // Set speeds
-super_fast_mspeed = 25 + (speed_hacks * 50);
-fast_mspeed       = 21 + (speed_hacks * 50);
+super_fast_mspeed = 38 + (speed_hacks * 50);
+fast_mspeed       = 33 + (speed_hacks * 50);
 norm_mspeed       = 17 + (speed_hacks * 50);
+default_hop_delay = 5;
 
 // Set Bunny State
 switch(mode)
@@ -133,7 +134,7 @@ switch(mode)
             image_speed = 0;
             image_index = 0;
             speed = 0;
-            bunny_hop_delay = 18;
+            bunny_hop_delay = default_hop_delay;
         }
     
         if(distance_to_object(main_robot) &gt; 149 &amp;&amp; bunny_hop_delay &lt; 1)

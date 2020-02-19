@@ -93,6 +93,10 @@ max_sonar_cooldown = 5 * room_speed; // cooldown on sonar ability (in frames)
 
 // sprite variables
 arm_index = spr_main_robot_arm_idle;
+
+// freeze movement -- will be useful for tutorial + cutscene
+move_freeze = true;
+first_sonar = false;
 </string>
           </argument>
         </arguments>
@@ -129,14 +133,11 @@ if (keyboard_check(ord('D'))) {
 
 move_vertical = -keyboard_check(ord('W')) + keyboard_check(ord('S'));
 
-/*
-if (keyboard_check(ord('W'))) {
-    move_vertical = -1;
+// Movement freeze
+if (move_freeze == true) {
+    move_horizontal = 0;
+    move_vertical = 0;
 }
-if (keyboard_check(ord('S'))) {
-    move_vertical = 1;
-}
-*/
 
 var new_x = self.x + (movement_speed * move_horizontal);
 var new_y = self.y + (movement_speed * move_vertical);
@@ -246,6 +247,12 @@ if (sonar_active == true) {
 if (keyboard_check_pressed(vk_space) and sonar_cooldown &lt; 0) {    
     sonar_cooldown = max_sonar_cooldown;
     sonar_active = true;
+    
+    // Unfreeze on first sonar - tutorial
+    if (!first_sonar) {
+        first_sonar = true;
+        move_freeze = false;
+    }
         
     image_index = 0;
     image_speed = 2/3;

@@ -3,8 +3,8 @@
   <caption></caption>
   <width>24576</width>
   <height>24576</height>
-  <vsnap>128</vsnap>
-  <hsnap>128</hsnap>
+  <vsnap>256</vsnap>
+  <hsnap>256</hsnap>
   <isometric>0</isometric>
   <speed>30</speed>
   <persistent>0</persistent>
@@ -84,6 +84,7 @@
     <instance objName="obj_bloodFall" x="4096" y="1792" name="inst_63D31C39" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_bloodFall" x="3840" y="1536" name="inst_09F688E5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_healthBar" x="384" y="0" name="inst_7BD28719" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spaceBarGUI" x="6912" y="5632" name="inst_B76C168E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bg_floors" x="5120" y="3328" w="256" h="256" xo="0" yo="0" id="10000363" name="inst_F4156E79" depth="10" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
