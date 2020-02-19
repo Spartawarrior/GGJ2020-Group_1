@@ -116,7 +116,6 @@ arm_index = spr_main_robot_arm_idle;
           <argument>
             <kind>1</kind>
             <string>///@desc Movement Script and Collision
-
 var move_horizontal = 0;
 var move_vertical = 0;
 var movement_speed = 7 + (speed_hacks * 50);
