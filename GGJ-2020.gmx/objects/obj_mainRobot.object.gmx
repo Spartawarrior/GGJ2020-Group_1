@@ -73,9 +73,6 @@ carrying_item = false;
 // item_checkpoint - decides which treasure to make appear next
 item_checkpoint = 0;
 
-// delay movement from sonar
-sonar_delay = -1;
-
 // sonar cooldown until next use
 sonar_cooldown = -1;
 
@@ -87,6 +84,15 @@ max_health = 99;
 my_health = 99;
 decay_rate = 0.01;
 heal_rate = 2;
+
+// sonar variables
+sonar_active = false;  // tells obj_soundDirector to play sonar sound
+sonar_anim_active = 0; // if sonar animation is currently playing
+max_sonar_delay = 50;  // longest time a sonar is delayed (in frames)
+max_sonar_cooldown = 5 * room_speed; // cooldown on sonar ability (in frames)
+
+// sprite variables
+arm_index = spr_main_robot_arm_idle;
 </string>
           </argument>
         </arguments>
@@ -121,52 +127,64 @@ if (keyboard_check(ord('A'))) {
 if (keyboard_check(ord('D'))) {
     move_horizontal += 1;
 }
+
+move_vertical = -keyboard_check(ord('W')) + keyboard_check(ord('S'));
+
+/*
 if (keyboard_check(ord('W'))) {
-    move_vertical += -1;
+    move_vertical = -1;
 }
 if (keyboard_check(ord('S'))) {
-    move_vertical += 1;
+    move_vertical = 1;
 }
+*/
 
 var new_x = self.x + (movement_speed * move_horizontal);
 var new_y = self.y + (movement_speed * move_vertical);
 
-if (!place_meeting(new_x, new_y, obj_wall) and sonar_delay &lt; 0) {
+if (!place_meeting(new_x, new_y, obj_wall) and !sonar_anim_active) {
     self.x = new_x;
     self.y = new_y;
 }
 
 // Image index
-if (move_horizontal &lt; 0 and move_vertical &lt; 0) {
-    image_xscale = 1;
-    sprite_index = spr_main_robot_walkB;
-} else if (move_horizontal &lt; 0 and move_vertical &gt; 0) {
-    image_xscale = 1;
-    sprite_index = spr_main_robot_walkF;
-} else if (move_horizontal &gt; 0 and move_vertical &lt; 0) {
-    image_xscale = -1;
-    sprite_index = spr_main_robot_walkB;
-} else if (move_horizontal &gt; 0 and move_vertical &gt; 0) {
-    image_xscale = -1;
-    sprite_index = spr_main_robot_walkF;
-} else if (move_horizontal &lt; 0 and move_vertical == 0) {
-    image_xscale = 1;
-    sprite_index = spr_main_robot_walkF;
-} else if (move_horizontal &gt; 0 and move_vertical == 0) {
-    image_xscale = -1;
-    sprite_index = spr_main_robot_walkF;
-} else if (move_horizontal == 0 and move_vertical &lt; 0) {
-    sprite_index = spr_main_robot_walkB;
-} else if (move_horizontal == 0 and move_vertical &gt; 0) {
-    sprite_index = spr_main_robot_walkF;
-} else {
-    if (sprite_index == spr_main_robot_walkB) {
-        image_speed = 1/6;
-        sprite_index = spr_main_robotB;
-    } else if (sprite_index == spr_main_robot_walkF) {
-        image_speed = 1/6;
-        sprite_index = spr_main_robotF;
+if(!sonar_anim_active)
+{
+    arm_index = spr_main_robot_arm_move;
+    if (move_horizontal &lt; 0 and move_vertical &lt; 0) {
+        image_xscale = -1;
+        sprite_index = spr_main_robot_walkB;
+    } else if (move_horizontal &lt; 0 and move_vertical &gt; 0) {
+        image_xscale = 1;
+        sprite_index = spr_main_robot_walkF;
+    } else if (move_horizontal &gt; 0 and move_vertical &lt; 0) {
+        image_xscale = 1;
+        sprite_index = spr_main_robot_walkB;
+    } else if (move_horizontal &gt; 0 and move_vertical &gt; 0) {
+        image_xscale = -1;
+        sprite_index = spr_main_robot_walkF;
+    } else if (move_horizontal &lt; 0 and move_vertical == 0) {
+        image_xscale = 1;
+        sprite_index = spr_main_robot_walkF;
+    } else if (move_horizontal &gt; 0 and move_vertical == 0) {
+        image_xscale = -1;
+        sprite_index = spr_main_robot_walkF;
+    } else if (move_horizontal == 0 and move_vertical &lt; 0) {
+        sprite_index = spr_main_robot_walkB;
+    } else if (move_horizontal == 0 and move_vertical &gt; 0) {
+        sprite_index = spr_main_robot_walkF;
+    } else {
+        arm_index = spr_main_robot_arm_idle;
+        if (sprite_index == spr_main_robot_walkB) {
+            image_speed = 1/6;
+            sprite_index = spr_main_robotB;
+        } else if (sprite_index == spr_main_robot_walkF) {
+            image_speed = 1/6;
+            sprite_index = spr_main_robotF;
+        }
     }
+    
+    if(carrying_item) arm_index = spr_main_robot_arm_carry;
 }
 
 // Collision with treasure
@@ -195,9 +213,9 @@ if (place_meeting(new_x, new_y, obj_treasure) and carrying_item == false) {
     }
 }
 
-// Speed hacks
+// Toggle speed hacks
 if (keyboard_check_pressed(vk_delete)) {
-    speed_hacks = 1;
+    speed_hacks = !speed_hacks;
 }
 </string>
           </argument>
@@ -221,25 +239,24 @@ if (keyboard_check_pressed(vk_delete)) {
             <kind>1</kind>
             <string>/// @desc Sonar - spacebar
 
-var max_sonar_delay = 50;
-var max_sonar_cooldown = 300; // 10 seconds-ish
-sonar_active = false;
-
-// Sending a state out to the sound director
+// Inform sound director to play sonar sound if sonar is active.
 if (sonar_active == true) {
     sonar_active = false;
 }
 
-if (keyboard_check_pressed(vk_space) and sonar_cooldown &lt; 0) {
-    sonar_delay = max_sonar_delay;
+if (keyboard_check_pressed(vk_space) and sonar_cooldown &lt; 0) {    
     sonar_cooldown = max_sonar_cooldown;
     sonar_active = true;
-    //TODO: FIx sonar
-    //sprite_index = spr_main_robot_sonarF;
-}
-
-if (sonar_delay &gt;= 0) {
-    sonar_delay += -1;
+        
+    image_index = 0;
+    image_speed = 2/3;
+    
+    if(sprite_index == spr_main_robot_walkB || sprite_index == spr_main_robotB)
+        sprite_index = spr_main_robot_sonarB;
+    else
+        sprite_index = spr_main_robot_sonarF;
+    
+    sonar_anim_active = true;
 }
 
 if (sonar_cooldown &gt;= 0) {
@@ -286,6 +303,40 @@ if (my_health &lt; 0) {
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch(sprite_index){
+    case spr_main_robot_sonarB:
+        sprite_index = spr_main_robotB;
+        image_speed = 1/6;
+        sonar_anim_active = false;
+        break;
+    case spr_main_robot_sonarF:
+        sprite_index = spr_main_robotF;
+        image_speed = 1/6;
+        sonar_anim_active = false;
+        break;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -304,7 +355,13 @@ if (my_health &lt; 0) {
           <argument>
             <kind>1</kind>
             <string>texture_set_interpolation(true);
+
 draw_self();
+if(sonar_anim_active)
+    draw_sprite_ext(spr_main_robot_arm_idle, 0, x, y, image_xscale, 1, image_angle, c_white, image_alpha);
+else
+    draw_sprite_ext(arm_index, image_index, x, y, image_xscale, 1, image_angle, c_white, image_alpha);
+
 texture_set_interpolation(false);
 </string>
           </argument>
